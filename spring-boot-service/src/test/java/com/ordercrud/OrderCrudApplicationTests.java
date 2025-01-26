@@ -1,4 +1,4 @@
-package com.ordercrud.order_crud;
+package com.ordercrud;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

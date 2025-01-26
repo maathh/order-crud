@@ -1,4 +1,4 @@
-package com.ordercrud.order_crud;
+package com.ordercrud;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

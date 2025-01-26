@@ -1,4 +1,4 @@
-package org.acme;
+package com.ordercrudevent;
 
 import io.quarkus.runtime.StartupEvent;
 import org.eclipse.microprofile.reactive.messaging.*;
