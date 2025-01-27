@@ -17,6 +17,7 @@ public class Order {
     @Setter(AccessLevel.NONE)
     private long id;
 
+    @Column(name = "customername")
     private String customerName ;
     private String product ;
     private int quantity  ;

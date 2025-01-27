@@ -51,9 +51,9 @@ public class OrderController {
             Page<OrderResponseDTO> ordersPage = orderService.findAllPaged(page, size, status, customerName);
             return ResponseEntity.ok(ordersPage);
         } catch (Exception e) {
-            span.setTag("error", true);  
-            span.log("Error on getting order paged: " + e.getMessage());
-            throw new RuntimeException("Error on getting order paged: " + e.getMessage());
+            span.setTag("getOrders:Catch", true);  
+            span.log("getOrders:Catch - " + e.getMessage());
+            throw new RuntimeException("getOrders:Catch - " + e.getMessage());
         } finally {
             span.finish();  
         }
