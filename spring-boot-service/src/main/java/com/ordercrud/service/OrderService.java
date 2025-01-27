@@ -1,32 +1,24 @@
 package com.ordercrud.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.ordercrud.model.Order;
-import com.ordercrud.repository.OrderRepository;
+import com.ordercrud.dto.request.OrderRequestDTO;
+import com.ordercrud.dto.response.OrderResponseDTO;
+import com.ordercrud.enums.Status;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class OrderService {
-    @Autowired
-    private OrderRepository orderRepository;
+import org.springframework.data.domain.Page;
 
-    public List<Order> findAll() {
-        return orderRepository.findAll();
-    }
+public interface OrderService {
 
-    public Optional<Order> findById(int id) {
-        return orderRepository.findById(id);
-    }
+    OrderResponseDTO findById(int id);
 
-    public Order save(Order order) {
-        return orderRepository.save(order);
-    }
+    Page<OrderResponseDTO> findAllPaged(int page, int size, Status status, String customerName);
 
-    public void deleteById(int id) {
-        orderRepository.deleteById(id);
-    }
+    List<OrderResponseDTO> findAll();
+
+    void create(OrderRequestDTO orderDTO);
+
+    void update(int id, OrderRequestDTO orderDTO);
+
+    void delete(int id);
 }

@@ -1,57 +1,79 @@
 package com.ordercrud.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import com.ordercrud.model.Order;
+import com.ordercrud.dto.request.OrderRequestDTO;
+import com.ordercrud.dto.response.OrderResponseDTO;
+import com.ordercrud.enums.Status;
 import com.ordercrud.service.OrderService;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
+
     @Autowired
     private OrderService orderService;
 
-    @GetMapping
-    public List<Order> getAllOrders() {
-        return orderService.findAll();
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponseDTO> getOrderById(@PathVariable int id) {
+        try {
+            OrderResponseDTO orderResDTO = orderService.findById(id);
+            if (orderResDTO == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            return ResponseEntity.ok(orderResDTO);
+        } catch (Exception e) {
+            throw new RuntimeException("Error on getting order by id: " + e.getMessage());
+        }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable int id) {
-        return orderService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping
+    public ResponseEntity<Page<OrderResponseDTO>> getOrders(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) Status status,
+            @RequestParam(required = false) String customerName) {
+
+        try {
+            Page<OrderResponseDTO> ordersPage = orderService.findAllPaged(page, size, status, customerName);
+
+            return ResponseEntity.ok(ordersPage);
+        } catch (Exception e) {
+            throw new RuntimeException("Error on getting order paged: " + e.getMessage());
+        }
     }
 
     @PostMapping
-    public Order createOrder(@RequestBody Order order) {
-        return orderService.save(order);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable int id, @RequestBody Order updatedOrder) {
-        return orderService.findById(id)
-                .map(existingOrder -> {
-                    existingOrder.setCustomerName(updatedOrder.getCustomerName());
-                    existingOrder.setProduct(updatedOrder.getProduct());
-                    existingOrder.setQuantity(updatedOrder.getQuantity());
-                    existingOrder.setStatus(updatedOrder.getStatus());
-                    orderService.save(existingOrder);
-                    return ResponseEntity.ok(existingOrder);
-                })
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable int id) {
-        if (orderService.findById(id).isPresent()) {
-            orderService.deleteById(id);
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> createOrder(@RequestBody OrderRequestDTO orderReq) {
+        try {
+            orderService.create(orderReq);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (Exception e) {
+            throw new RuntimeException("Error on creating order: " + e.getMessage());
         }
-        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> updateOrder(@RequestBody OrderRequestDTO orderReq, @PathVariable int id) {
+        try {
+            orderService.update(id, orderReq);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            throw new RuntimeException("Error on updating order: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> delete(@PathVariable int id) {
+        try {
+            orderService.delete(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            throw new RuntimeException("Error on deleting order: " + e.getMessage());
+        }
     }
 }

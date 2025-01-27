@@ -1,0 +1,5 @@
+.env
+mariadb_data
+data
+.vscode
+.idea

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+<div class="container mx-auto p-4">
+    <!-- Título da página -->
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-3xl font-bold">Lista de Pedidos</h1>
+        <!-- Formulário para criar um novo pedido -->
+        <a href="#addOrderModal" data-toggle="modal"
+           class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Novo Pedido
+        </a>
+    </div>
+
+    <!-- Tabela de pedidos -->
+    <div class="overflow-x-auto bg-white rounded-lg shadow-md p-4">
+        <table class="table-auto w-full">
+            <thead>
+            <tr>
+                <th class="px-4 py-2 border">Ações</th>
+                <th class="px-4 py-2 border">ID</th>
+                <th class="px-4 py-2 border">Cliente</th>
+                <th class="px-4 py-2 border">Produto</th>
+                <th class="px-4 py-2 border">Quantidade</th>
+                <th class="px-4 py-2 border">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${ordersPage.content}">
+                <td class="px-4 py-2 border">
+                    <a href="#editOrderModal" data-toggle="modal" th:attr="data-order-id=${order.id}"
+                       class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded">Editar</a>
+                    <a href="#editOrderModal" data-toggle="modal" th:attr="data-order-id=${order.id}"
+                       class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">Excluir</a>
+                </td>
+                <td class="px-4 py-2 border" th:text="${order.id}"></td>
+                <td class="px-4 py-2 border" th:text="${order.customerName}"></td>
+                <td class="px-4 py-2 border" th:text="${order.product}"></td>
+                <td class="px-4 py-2 border" th:text="${order.quantity}"></td>
+                <td class="px-4 py-2 border" th:text="${order.status}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Paginação -->
+        <div class="mt-4 flex justify-between">
+            <div th:if="${ordersPage.totalPages > 1}">
+                <a href="?page=0" class="bg-gray-200 text-gray-800 py-1 px-3 rounded">Primeira</a>
+                <a href="?page=${currentPage - 1}" th:if="${currentPage > 0}"
+                   class="bg-gray-200 text-gray-800 py-1 px-3 rounded">Anterior</a>
+                <span th:text="'Página ' + ${currentPage + 1} + ' de ' + ${totalPages}"></span>
+                <a href="?page=${currentPage + 1}" th:if="${currentPage < totalPages - 1}"
+                   class="bg-gray-200 text-gray-800 py-1 px-3 rounded">Próxima</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para adicionar um novo pedido -->
+    <div id="addOrderModal" class="modal">
+        <div class="modal-content">
+            <h2 class="text-xl">Adicionar Novo Pedido</h2>
+            <form action="/orders" method="POST" class="space-y-4">
+                <div>
+                    <label for="customerName" class="block">Nome do Cliente</label>
+                    <input type="text" id="customerName" name="customerName" class="w-full p-2 border rounded" required>
+                </div>
+                <div>
+                    <label for="product" class="block">Produto</label>
+                    <input type="text" id="product" name="product" class="w-full p-2 border rounded" required>
+                </div>
+                <div>
+                    <label for="quantity" class="block">Quantidade</label>
+                    <input type="number" id="quantity" name="quantity" class="w-full p-2 border rounded" required>
+                </div>
+                <div>
+                    <label for="status" class="block">Status</label>
+                    <select id="status" name="status" class="w-full p-2 border rounded">
+                        <option value="PENDING">Pendente</option>
+                        <option value="SHIPPED">Enviado</option>
+                        <option value="DELIVERED">Entregue</option>
+                    </select>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Criar
+                        Pedido
+                    </button>
+                    <button type="button" class="bg-gray-300 hover:bg-gray-500 text-gray-700 py-2 px-4 rounded"
+                            data-toggle="modal" data-target="#addOrderModal">Fechar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="editOrderModal" class="modal">
+        <div class="modal-content">
+            <h2 class="text-xl">Editar Pedido</h2>
+            <form action="/orders/{id}" method="PUT" class="space-y-4">
+                <input type="hidden" id="editOrderId" name="id">
+                <div>
+                    <label for="editCustomerName" class="block">Nome do Cliente</label>
+                    <input type="text" id="editCustomerName" name="customerName" class="w-full p-2 border rounded"
+                           required>
+                </div>
+                <div>
+                    <label for="editProduct" class="block">Produto</label>
+                    <input type="text" id="editProduct" name="product" class="w-full p-2 border rounded" required>
+                </div>
+                <div>
+                    <label for="editQuantity" class="block">Quantidade</label>
+                    <input type="number" id="editQuantity" name="quantity" class="w-full p-2 border rounded" required>
+                </div>
+                <div>
+                    <label for="editStatus" class="block">Status</label>
+                    <select id="editStatus" name="status" class="w-full p-2 border rounded">
+                        <option value="PENDING">Pendente</option>
+                        <option value="SHIPPED">Enviado</option>
+                        <option value="DELIVERED">Entregue</option>
+                    </select>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Salvar
+                        Alterações
+                    </button>
+                    <button type="button" class="bg-gray-300 hover:bg-gray-500 text-gray-700 py-2 px-4 rounded"
+                            data-toggle="modal" data-target="#editOrderModal">Fechar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts (Se necessário, implemente a lógica de modais ou AJAX) -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.7.3/dist/alpine.min.js"></script>
+</body>
+</html>
