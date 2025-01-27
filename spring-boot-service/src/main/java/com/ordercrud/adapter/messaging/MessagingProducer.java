@@ -1,6 +1,6 @@
 package com.ordercrud.adapter.messaging;
 
-import com.ordercrud.enums.Topic;
+import com.ordercrud.util.enums.Topic;
 
 public interface MessagingProducer {
 

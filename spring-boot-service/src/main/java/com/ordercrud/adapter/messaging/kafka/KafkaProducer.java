@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ordercrud.adapter.messaging.MessagingData;
 import com.ordercrud.adapter.messaging.MessagingProducer;
-import com.ordercrud.enums.Topic;
+import com.ordercrud.util.enums.Topic;
 
 @Primary
 @Component

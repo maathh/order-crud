@@ -1,4 +1,4 @@
-package com.ordercrudevent.enums;
+package com.ordercrud.util.enums;
 
 public enum Status {
     PENDING,

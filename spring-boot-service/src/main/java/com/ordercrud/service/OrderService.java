@@ -2,7 +2,7 @@ package com.ordercrud.service;
 
 import com.ordercrud.dto.request.OrderRequestDTO;
 import com.ordercrud.dto.response.OrderResponseDTO;
-import com.ordercrud.enums.Status;
+import com.ordercrud.util.enums.Status;
 
 import java.util.List;
 

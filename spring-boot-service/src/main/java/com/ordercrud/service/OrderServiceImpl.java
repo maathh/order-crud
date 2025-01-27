@@ -14,9 +14,9 @@ import com.ordercrud.dto.request.OrderRequestDTO;
 import com.ordercrud.dto.request.OrderRequestDeleteDTO;
 import com.ordercrud.dto.response.OrderResponseDTO;
 import com.ordercrud.entity.Order;
-import com.ordercrud.enums.Status;
-import com.ordercrud.enums.Topic;
 import com.ordercrud.repository.OrderRepository;
+import com.ordercrud.util.enums.Status;
+import com.ordercrud.util.enums.Topic;
 
 import lombok.RequiredArgsConstructor;
 

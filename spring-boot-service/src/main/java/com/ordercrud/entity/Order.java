@@ -1,8 +1,8 @@
 package com.ordercrud.entity;
 
-import com.ordercrud.enums.Status;
-
 import lombok.*;
+
+import com.ordercrud.util.enums.Status;
 
 import jakarta.persistence.*;
 

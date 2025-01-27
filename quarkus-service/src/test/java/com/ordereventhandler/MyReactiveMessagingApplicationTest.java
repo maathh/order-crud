@@ -1,23 +1,19 @@
-package com.ordercrudevent;
+package com.ordereventhandler;
 
-import io.quarkus.test.common.QuarkusTestResource;
-import io.quarkus.test.common.QuarkusTestResourceLifecycleManager;
 import io.quarkus.test.junit.QuarkusTest;
 
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.junit.jupiter.api.Test;
-
-import com.ordercrudevent.MyMessagingApplication;
 
 import jakarta.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
-class MyMessagingApplicationTest {
+class MyReactiveMessagingApplicationTest {
 
     @Inject
-    MyMessagingApplication application;
+    MyReactiveMessagingApplication application;
 
     @Test
     void test() {

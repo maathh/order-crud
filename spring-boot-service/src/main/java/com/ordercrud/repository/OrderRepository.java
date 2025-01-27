@@ -1,7 +1,7 @@
 package com.ordercrud.repository;
 
 import com.ordercrud.entity.Order;
-import com.ordercrud.enums.Status;
+import com.ordercrud.util.enums.Status;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

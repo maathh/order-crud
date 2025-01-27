@@ -1,7 +1,7 @@
 package com.ordercrud.dto.response;
 
 import com.ordercrud.entity.Order;
-import com.ordercrud.enums.Status;
+import com.ordercrud.util.enums.Status;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

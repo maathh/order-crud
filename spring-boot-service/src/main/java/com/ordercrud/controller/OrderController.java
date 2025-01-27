@@ -2,8 +2,8 @@ package com.ordercrud.controller;
 
 import com.ordercrud.dto.request.OrderRequestDTO;
 import com.ordercrud.dto.response.OrderResponseDTO;
-import com.ordercrud.enums.Status;
 import com.ordercrud.service.OrderService;
+import com.ordercrud.util.enums.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -2,8 +2,8 @@ package com.ordercrud.dto.request;
 
 
 import com.ordercrud.adapter.messaging.MessagingData;
-import com.ordercrud.enums.Status;
-import com.ordercrud.enums.Topic;
+import com.ordercrud.util.enums.Status;
+import com.ordercrud.util.enums.Topic;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

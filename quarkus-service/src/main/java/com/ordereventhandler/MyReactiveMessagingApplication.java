@@ -1,4 +1,4 @@
-package com.ordercrudevent;
+package com.ordereventhandler;
 
 import io.quarkus.runtime.StartupEvent;
 import org.eclipse.microprofile.reactive.messaging.*;
@@ -9,7 +9,7 @@ import jakarta.inject.Inject;
 import java.util.stream.Stream;
 
 @ApplicationScoped
-public class MyMessagingApplication {
+public class MyReactiveMessagingApplication {
 
     @Inject
     @Channel("words-out")
@@ -20,7 +20,7 @@ public class MyMessagingApplication {
      * Messages are sent to the broker.
      **/
     void onStart(@Observes StartupEvent ev) {
-        Stream.of("Hello", "with", "Quarkus", "Messaging", "message").forEach(string -> emitter.send(string));
+        Stream.of("Hello", "with", "SmallRye", "reactive", "message").forEach(string -> emitter.send(string));
     }
 
     /**
