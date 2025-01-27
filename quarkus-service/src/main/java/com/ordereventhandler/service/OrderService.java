@@ -34,18 +34,23 @@ public class OrderService {
 
     @Transactional
     public void updateOrder(OrderRequestUpdateDTO orderRequestDTO) {
+        LOG.infof("updateOrder - begin: %s", orderRequestDTO);
         Order order = orderRepository.findById(orderRequestDTO.getId());
+        LOG.infof("updateOrder - findById: %s", order);
         if (order != null) {
             order.setCustomerName(orderRequestDTO.getCustomerName());
             order.setProduct(orderRequestDTO.getProduct());
             order.setQuantity(orderRequestDTO.getQuantity());
             order.setStatus(orderRequestDTO.getStatus());
+            LOG.infof("updateOrder - update: %s", order);
             orderRepository.update(order);
         }
     }
 
     @Transactional
     public void deleteOrder(OrderRequestDeleteDTO orderRequestDeleteDTO) {
+        LOG.infof("deleteOrder - begin: %s", orderRequestDeleteDTO);
         orderRepository.deleteById(orderRequestDeleteDTO.getId());
+        LOG.infof("deleteOrder - success");
     }
 }

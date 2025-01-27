@@ -11,6 +11,7 @@ import com.ordercrud.adapter.messaging.MessagingProducer;
 import com.ordercrud.util.enums.Topic;
 
 import io.opentracing.Span;
+import io.opentracing.Tracer;
 import io.opentracing.util.GlobalTracer;
 
 @Primary
@@ -22,9 +23,11 @@ public class KafkaProducer implements MessagingProducer {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    private Tracer tracer = GlobalTracer.get();
+
     @Override
     public <T extends MessagingData> void send(Topic topic, T data) {
-        Span span = GlobalTracer.get().buildSpan("KafkaProducer.send").start();
+        Span span = tracer.buildSpan("KafkaProducer.send").start();
 
         try {
             String message = objectMapper.writeValueAsString(data);
@@ -32,17 +35,26 @@ public class KafkaProducer implements MessagingProducer {
             span.setTag("kafka.topic", topic.toString());
             span.setTag("kafka.message_size", message.length());
 
-            System.out.println(topic.toString());
-            System.out.println(message);
             kafkaTemplate.send(topic.toString(), message);
 
             span.setTag("kafka.status", "success");
         } catch (Exception e) {
-            System.out.println("ERROR kafka");
             span.setTag("error", true);
             span.log("Error sending message: " + e.getMessage());
         } finally {
             span.finish();
         }
+    }
+
+    public void setKafkaTemplate(KafkaTemplate<String, String> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    public void setTraer(Tracer tracer) {
+        this.tracer = tracer;
     }
 }

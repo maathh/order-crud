@@ -32,8 +32,7 @@ public class OrderRepositoryTest {
     @Transactional
     void testSaveOrder() {
         orderRepository.save(order);
-
-        assertNotNull(order.getId()); // Verifica se o ID foi gerado após a persistência
+        assertNotNull(order.getId());
         assertEquals("Customer Test", order.getCustomerName());
         assertEquals("Test Product", order.getProduct());
         assertEquals(10, order.getQuantity());
@@ -45,7 +44,6 @@ public class OrderRepositoryTest {
     void testFindById() {
         orderRepository.save(order);
         Order foundOrder = orderRepository.findById(order.getId());
-
         assertNotNull(foundOrder);
         assertEquals(order.getId(), foundOrder.getId());
         assertEquals(order.getCustomerName(), foundOrder.getCustomerName());
@@ -63,7 +61,6 @@ public class OrderRepositoryTest {
         order.setQuantity(20);
         order.setStatus(Status.PENDING);
         orderRepository.update(order);
-
         Order updatedOrder = orderRepository.findById(order.getId());
         assertNotNull(updatedOrder);
         assertEquals("Updated Customer Name", updatedOrder.getCustomerName());
@@ -78,7 +75,6 @@ public class OrderRepositoryTest {
         orderRepository.save(order);
         long orderId = order.getId();
         orderRepository.delete(orderId);
-
         Order deletedOrder = orderRepository.findById(orderId);
         assertNull(deletedOrder);
     }

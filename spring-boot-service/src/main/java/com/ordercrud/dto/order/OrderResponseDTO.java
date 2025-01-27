@@ -18,6 +18,8 @@ public class OrderResponseDTO {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    public OrderResponseDTO() {}
+
     public OrderResponseDTO(Order order) {
         this.id = order.getId();
         this.customerName = order.getCustomerName();

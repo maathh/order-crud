@@ -18,17 +18,14 @@ public class OrderMapperTest {
 
     @Test
     void testToOrder() {
-        // Arrange
         OrderRequestDTO orderRequestDTO = new OrderRequestDTO();
         orderRequestDTO.setCustomerName("Customer Test");
         orderRequestDTO.setProduct("Test Product");
         orderRequestDTO.setQuantity(10);
         orderRequestDTO.setStatus(Status.PENDING);
 
-        // Act
         Order order = orderMapper.toOrder(orderRequestDTO);
 
-        // Assert
         assertNotNull(order);
         assertEquals("Customer Test", order.getCustomerName());
         assertEquals("Test Product", order.getProduct());

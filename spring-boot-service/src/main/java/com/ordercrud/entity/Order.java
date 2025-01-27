@@ -33,4 +33,11 @@ public class Order {
         this.status = status;
     }
 
+    public Order(long id, String customerName, String product, int quantity, Status status) {
+        this.id = id;
+        this.customerName = customerName;
+        this.product = product;
+        this.quantity = quantity;
+        this.status = status;
+    }
 }

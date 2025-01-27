@@ -6,6 +6,7 @@ import com.ordereventhandler.dto.order.OrderRequestUpdateDTO;
 import com.ordereventhandler.service.OrderService;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -36,13 +37,15 @@ public class OrderEventConsumerTest {
 
     private static KafkaContainer kafkaContainer;
 
+    @BeforeAll
+    static void begin(){
+        kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
+        kafkaContainer.start();
+    }
+
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
-
-        kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
-        kafkaContainer.start();
-
         orderRequestDTO = new OrderRequestDTO();
         orderRequestDTO.setCustomerName("Order 1");
 
@@ -63,73 +66,55 @@ public class OrderEventConsumerTest {
 
     @Test
     void testConsumeOrderUpdate() {
-        // Arrange
         doNothing().when(orderService).updateOrder(orderRequestUpdateDTO);
 
-        // Act
         orderEventConsumer.consumeOrderUpdate(orderRequestUpdateDTO);
 
-        // Assert
         verify(orderService, times(1)).updateOrder(orderRequestUpdateDTO);
     }
 
     @Test
     void testConsumeOrderCreate() {
-        // Arrange
         doNothing().when(orderService).createOrder(orderRequestDTO);
 
-        // Act
         orderEventConsumer.consumeOrderCreate(orderRequestDTO);
 
-        // Assert
         verify(orderService, times(1)).createOrder(orderRequestDTO);
     }
 
     @Test
     void testConsumeOrderDelete() {
-        // Arrange
         doNothing().when(orderService).deleteOrder(orderRequestDeleteDTO);
 
-        // Act
         orderEventConsumer.consumeOrderDelete(orderRequestDeleteDTO);
 
-        // Assert
         verify(orderService, times(1)).deleteOrder(orderRequestDeleteDTO);
     }
 
     @Test
     void testConsumeOrderUpdateWithException() {
-        // Arrange
         doThrow(new RuntimeException("Error updating order")).when(orderService).updateOrder(orderRequestUpdateDTO);
 
-        // Act
         orderEventConsumer.consumeOrderUpdate(orderRequestUpdateDTO);
 
-        // Assert
         verify(orderService, times(1)).updateOrder(orderRequestUpdateDTO);
     }
 
     @Test
     void testConsumeOrderCreateWithException() {
-        // Arrange
         doThrow(new RuntimeException("Error creating order")).when(orderService).createOrder(orderRequestDTO);
 
-        // Act
         orderEventConsumer.consumeOrderCreate(orderRequestDTO);
 
-        // Assert
         verify(orderService, times(1)).createOrder(orderRequestDTO);
     }
 
     @Test
     void testConsumeOrderDeleteWithException() {
-        // Arrange
         doThrow(new RuntimeException("Error deleting order")).when(orderService).deleteOrder(orderRequestDeleteDTO);
 
-        // Act
         orderEventConsumer.consumeOrderDelete(orderRequestDeleteDTO);
 
-        // Assert
         verify(orderService, times(1)).deleteOrder(orderRequestDeleteDTO);
     }
 }

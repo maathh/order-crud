@@ -17,6 +17,16 @@ public class OrderRequestDTO implements MessagingData {
     private String product;
     private int quantity;
 
+    public OrderRequestDTO() {
+    }
+
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    public OrderRequestDTO(String customerName, String product, int quantity, Status status) {
+        this.customerName = customerName;
+        this.product = product;
+        this.quantity = quantity;
+        this.status = status;
+    }
 }
