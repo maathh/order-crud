@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.ordercrud.adapter.messaging.MessagingData;
 import com.ordercrud.adapter.messaging.MessagingProducer;
-import com.ordercrud.dto.mapper.OrderMapper;
-import com.ordercrud.dto.request.OrderRequestDTO;
-import com.ordercrud.dto.request.OrderRequestDeleteDTO;
-import com.ordercrud.dto.response.OrderResponseDTO;
+import com.ordercrud.dto.order.OrderMapper;
+import com.ordercrud.dto.order.OrderRequestDTO;
+import com.ordercrud.dto.order.OrderRequestDeleteDTO;
+import com.ordercrud.dto.order.OrderResponseDTO;
 import com.ordercrud.entity.Order;
 import com.ordercrud.repository.OrderRepository;
 import com.ordercrud.util.enums.Status;
@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
     private final MessagingProducer messagingProducer;
     private final OrderMapper orderMapper;
 
-    public OrderResponseDTO findById(int id) {
+    public OrderResponseDTO findById(long id) {
         return orderMapper.toOrderDTO(returnOrder(id));
     }
 
@@ -45,11 +45,11 @@ public class OrderServiceImpl implements OrderService {
         send(Topic.ORDER_CREATE, order);
     }
 
-    public void update(int id, OrderRequestDTO order) {
+    public void update(long id, OrderRequestDTO order) {
         send(Topic.ORDER_UPDATE, order);
     }
 
-    public void delete(int id) {
+    public void delete(long id) {
         OrderRequestDeleteDTO orderRequest = new OrderRequestDeleteDTO(id);
         orderRequest.setId(id);
 
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
         messagingProducer.send(topic, orderRequest);
     }
 
-    private Order returnOrder(int id) {
+    private Order returnOrder(long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order wasn't fount on database"));
     }

@@ -1,7 +1,7 @@
 package com.ordercrud.controller;
 
-import com.ordercrud.dto.request.OrderRequestDTO;
-import com.ordercrud.dto.response.OrderResponseDTO;
+import com.ordercrud.dto.order.OrderRequestDTO;
+import com.ordercrud.dto.order.OrderResponseDTO;
 import com.ordercrud.service.OrderService;
 import com.ordercrud.util.enums.Status;
 
@@ -19,7 +19,7 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderResponseDTO> getOrderById(@PathVariable int id) {
+    public ResponseEntity<OrderResponseDTO> getOrderById(@PathVariable long id) {
         try {
             OrderResponseDTO orderResDTO = orderService.findById(id);
             if (orderResDTO == null) {
@@ -58,7 +58,7 @@ public class OrderController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> updateOrder(@RequestBody OrderRequestDTO orderReq, @PathVariable int id) {
+    public ResponseEntity<Void> updateOrder(@RequestBody OrderRequestDTO orderReq, @PathVariable long id) {
         try {
             orderService.update(id, orderReq);
             return ResponseEntity.status(HttpStatus.OK).build();
@@ -68,7 +68,7 @@ public class OrderController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) {
+    public ResponseEntity<String> delete(@PathVariable long id) {
         try {
             orderService.delete(id);
             return ResponseEntity.status(HttpStatus.OK).build();

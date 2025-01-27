@@ -9,13 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface OrderRepository extends JpaRepository<Order, Integer> {
-
+public interface OrderRepository extends JpaRepository<Order, Long> {
         @Query("SELECT o FROM Order o WHERE " +
-                "(:status IS NULL OR o.status = :status) " +
-                "AND (:customerName IS NULL OR LOWER(CAST(o.customerName AS string)) LIKE LOWER(CONCAT('%', :customerName, '%')))")
+                        "(:status IS NULL OR o.status = :status) " +
+                        "AND (:customerName IS NULL OR LOWER(o.customerName) LIKE LOWER(CONCAT('%', :customerName, '%'))) ")
         Page<Order> findAll(
-                @Param("status") Status status,
-                @Param("customerName") String customerName,
-                Pageable pageable);
-    }
+                        @Param("status") Status status,
+                        @Param("customerName") String customerName,
+                        Pageable pageable);
+}

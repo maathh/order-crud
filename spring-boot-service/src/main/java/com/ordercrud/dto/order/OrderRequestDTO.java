@@ -1,9 +1,8 @@
-package com.ordercrud.dto.request;
+package com.ordercrud.dto.order;
 
 
 import com.ordercrud.adapter.messaging.MessagingData;
 import com.ordercrud.util.enums.Status;
-import com.ordercrud.util.enums.Topic;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderRequestDTO implements MessagingData {
-    private int id;
+    private long id;
     private String customerName;
     private String product;
     private int quantity;

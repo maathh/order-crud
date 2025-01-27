@@ -1,7 +1,7 @@
 package com.ordercrud.service;
 
-import com.ordercrud.dto.request.OrderRequestDTO;
-import com.ordercrud.dto.response.OrderResponseDTO;
+import com.ordercrud.dto.order.OrderRequestDTO;
+import com.ordercrud.dto.order.OrderResponseDTO;
 import com.ordercrud.util.enums.Status;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 
 public interface OrderService {
 
-    OrderResponseDTO findById(int id);
+    OrderResponseDTO findById(long id);
 
     Page<OrderResponseDTO> findAllPaged(int page, int size, Status status, String customerName);
 
@@ -18,7 +18,7 @@ public interface OrderService {
 
     void create(OrderRequestDTO orderDTO);
 
-    void update(int id, OrderRequestDTO orderDTO);
+    void update(long id, OrderRequestDTO orderDTO);
 
-    void delete(int id);
+    void delete(long id);
 }

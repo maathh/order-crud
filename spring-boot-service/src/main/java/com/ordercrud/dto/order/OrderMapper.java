@@ -1,10 +1,8 @@
-package com.ordercrud.dto.mapper;
+package com.ordercrud.dto.order;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import com.ordercrud.dto.request.OrderRequestDTO;
-import com.ordercrud.dto.response.OrderResponseDTO;
 import com.ordercrud.entity.Order;
 
 import java.util.List;

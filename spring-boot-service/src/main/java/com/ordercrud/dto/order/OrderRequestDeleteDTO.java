@@ -1,4 +1,4 @@
-package com.ordercrud.dto.request;
+package com.ordercrud.dto.order;
 
 
 import com.ordercrud.adapter.messaging.MessagingData;
@@ -9,9 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderRequestDeleteDTO implements MessagingData {
-    private int id;
+    private long id;
 
-    public OrderRequestDeleteDTO(int id){
+    public OrderRequestDeleteDTO(long id){
         this.id = id;
     }
 }

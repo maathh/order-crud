@@ -1,4 +1,4 @@
-package com.ordercrud.dto.response;
+package com.ordercrud.dto.order;
 
 import com.ordercrud.entity.Order;
 import com.ordercrud.util.enums.Status;
@@ -9,11 +9,11 @@ import lombok.Getter;
 
 @Getter
 public class OrderResponseDTO {
-    private int id;
+    private long id;
 
     private String customerName;
     private String product;
-    private int quantity;
+    private long quantity;
 
     @Enumerated(EnumType.STRING)
     private Status status;
