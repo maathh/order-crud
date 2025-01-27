@@ -15,6 +15,8 @@ Para iniciar o projeto, execute o seguinte comando na raiz do repositório:
 docker compose up
 ```
 
+Após a execução caso o .env foi configurado corretamente as metricas irão aparecer no dashboard do datadog
+
 ## Executando os Testes
 
 Você pode rodar os testes de cada serviço individualmente, seguindo estas instruções:
@@ -48,5 +50,5 @@ docker build -f Dockerfile -t matehusu/order-crud .
 ```bash
 cd quarkus-service
 mvn clean install
-quarkus image
+docker build -f src/main/Docker/Dockerfile.jvm -t matehusu/order-eventhandler .
 ```
